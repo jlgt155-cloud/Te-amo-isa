@@ -99,7 +99,8 @@
         setInterval(createFallingLove, 400);
 
         function createBurstLove(x, y) {
-            for (let i = 0; i < 7; i++) {
+            // El cambio se realiza en el bucle 'for' para que solo se creen 2 elementos
+            for (let i = 0; i < 2; i++) {
                 const love = document.createElement('div');
                 love.classList.add('burst-love');
                 love.textContent = '💗 MI AMOR POR TI ES INFINITO 💗';
