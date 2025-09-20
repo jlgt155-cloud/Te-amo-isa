@@ -1,0 +1,123 @@
+‎<!DOCTYPE html>
+‎<html lang="es">
+‎<head>
+‎    <meta charset="UTF-8">
+‎    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+‎    <title>¡Te Amo! ❤️</title>
+‎    <style>
+‎        body {
+‎            margin: 0;
+‎            overflow: hidden;
+‎            background-color: #fce4ec; /* Rosa muy claro */
+‎            font-family: 'Arial', sans-serif;
+‎            cursor: pointer;
+‎            position: relative;
+‎        }
+‎
+‎        /* Estilo para los "Te Amo" que caen */
+‎        .falling-love {
+‎            position: absolute;
+‎            font-size: 1.2em;
+‎            color: #d81b60; /* Rosa oscuro */
+‎            opacity: 0;
+‎            pointer-events: none;
+‎            animation: fallAndFade linear infinite;
+‎            white-space: nowrap;
+‎        }
+‎
+‎        /* La animación de caída, con una duración aleatoria para que no caigan todos al mismo tiempo */
+‎        @keyframes fallAndFade {
+‎            0% {
+‎                transform: translateY(-20px);
+‎                opacity: 0;
+‎            }
+‎            10% {
+‎                opacity: 1;
+‎            }
+‎            100% {
+‎                transform: translateY(100vh);
+‎                opacity: 0;
+‎            }
+‎        }
+‎
+‎        /* Estilo para los "Te Amo" que aparecen al tocar la pantalla */
+‎        .burst-love {
+‎            position: absolute;
+‎            font-size: 1.5em;
+‎            color: #880e4f; /* Granate */
+‎            opacity: 0;
+‎            pointer-events: none;
+‎            animation: burstOut 1.5s ease-out forwards;
+‎            white-space: nowrap;
+‎        }
+‎
+‎        /* Animación para el estallido */
+‎        @keyframes burstOut {
+‎            0% {
+‎                transform: scale(0.5);
+‎                opacity: 1;
+‎            }
+‎            100% {
+‎                transform: scale(2) translateY(-50px);
+‎                opacity: 0;
+‎            }
+‎        }
+‎    </style>
+‎</head>
+‎<body>
+‎    <script>
+‎        // Función para crear un "Te Amo" que cae desde arriba
+‎        function createFallingLove() {
+‎            const love = document.createElement('div');
+‎            love.classList.add('falling-love');
+‎            love.textContent = 'Te Amo ❤️';
+‎            love.style.left = `${Math.random() * 100}vw`; // Posición horizontal aleatoria
+‎            love.style.animationDuration = `${Math.random() * 3 + 4}s`; // Duración aleatoria entre 4 y 7 segundos
+‎            love.style.animationDelay = `${Math.random() * 2}s`; // Retraso aleatorio para la animación
+‎            document.body.appendChild(love);
+‎
+‎            // Elimina el elemento cuando termine su animación para no sobrecargar la página
+‎            love.addEventListener('animationend', () => {
+‎                love.remove();
+‎            });
+‎        }
+‎
+‎        // Crea un "Te Amo" que cae cada 0.5 segundos
+‎        setInterval(createFallingLove, 500);
+‎
+‎        // Función para crear una ráfaga de "Te Amo" al tocar la pantalla
+‎        function createBurstLove(x, y) {
+‎            for (let i = 0; i < 15; i++) { // Crea 15 "Te Amo" en cada ráfaga
+‎                const love = document.createElement('div');
+‎                love.classList.add('burst-love');
+‎                love.textContent = 'Te Amo ❤️';
+‎                // Posición inicial ligeramente aleatoria alrededor del punto de contacto
+‎                love.style.left = `${x + (Math.random() - 0.5) * 50}px`;
+‎                love.style.top = `${y + (Math.random() - 0.5) * 50}px`;
+‎                document.body.appendChild(love);
+‎                
+‎                // Mueve el "Te Amo" a una posición aleatoria para el efecto de ráfaga
+‎                const angle = Math.random() * 2 * Math.PI;
+‎                const distance = Math.random() * 100 + 50;
+‎                love.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(1.5)`;
+‎
+‎                love.addEventListener('animationend', () => {
+‎                    love.remove();
+‎                });
+‎            }
+‎        }
+‎
+‎        // Detecta el clic o toque en la pantalla
+‎        document.addEventListener('click', function(event) {
+‎            createBurstLove(event.clientX, event.clientY);
+‎        });
+‎
+‎        document.addEventListener('touchstart', function(event) {
+‎            event.preventDefault(); // Evita el zoom en móviles
+‎            for (let i = 0; i < event.touches.length; i++) {
+‎                createBurstLove(event.touches[i].clientX, event.touches[i].clientY);
+‎            }
+‎        });
+‎    </script>
+‎</body>
+‎</html>
