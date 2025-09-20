@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Te Amo Isa! ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            cursor: pointer;
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .background-sea {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://source.unsplash.com/random/1920x1080/?sea,ocean,beach');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(100%) brightness(80%);
+            z-index: -1;
+        }
+
+        .falling-love {
+            position: absolute;
+            font-size: 1.5em;
+            color: #ff007f;
+            opacity: 0;
+            pointer-events: none;
+            animation: fallAndFade linear infinite;
+            white-space: nowrap;
+            text-shadow: 0 0 5px #ff007f, 0 0 10px #ff007f, 0 0 15px #ff007f;
+            font-weight: bold;
+        }
+
+        @keyframes fallAndFade {
+            0% {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        .burst-love {
+            position: absolute;
+            font-size: 1.8em;
+            color: #ff0000;
+            opacity: 0;
+            pointer-events: none;
+            animation: burstOut 1.8s ease-out forwards;
+            white-space: nowrap;
+            text-shadow: 0 0 7px #ff0000, 0 0 15px #ff0000, 0 0 25px #ff0000, 0 0 40px #ff0000;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        @keyframes burstOut {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2.5) translateY(-70px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-sea"></div>
+    <script>
+        function createFallingLove() {
+            const love = document.createElement('div');
+            love.classList.add('falling-love');
+            love.textContent = '❤️ TE AMO ISA ❤️';
+            love.style.left = `${Math.random() * 100}vw`;
+            love.style.animationDuration = `${Math.random() * 3 + 5}s`;
+            love.style.animationDelay = `${Math.random() * 2}s`;
+            document.body.appendChild(love);
+
+            love.addEventListener('animationend', () => {
+                love.remove();
+            });
+        }
+
+        setInterval(createFallingLove, 400);
+
+        function createBurstLove(x, y) {
+            for (let i = 0; i < 7; i++) {
+                const love = document.createElement('div');
+                love.classList.add('burst-love');
+                love.textContent = '💗 MI AMOR POR TI ES INFINITO 💗';
+                
+                love.style.left = `${x + (Math.random() - 0.5) * 80}px`;
+                love.style.top = `${y + (Math.random() - 0.5) * 80}px`;
+                document.body.appendChild(love);
+                
+                const angle = Math.random() * 2 * Math.PI;
+                const distance = Math.random() * 120 + 70;
+                love.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(1.5)`;
+
+                love.addEventListener('animationend', () => {
+                    love.remove();
+                });
+            }
+        }
+
+        document.addEventListener('click', function(event) {
+            createBurstLove(event.clientX, event.clientY);
+        });
+
+        document.addEventListener('touchstart', function(event) {
+            event.preventDefault();
+            for (let i = 0; i < event.touches.length; i++) {
+                createBurstLove(event.touches[i].clientX, event.touches[i].clientY);
+            }
+        });
+    </script>
+</body>
+</html>
